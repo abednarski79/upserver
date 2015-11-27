@@ -14,7 +14,7 @@ public class App
 
     public static void main( String[] args )
     {
-        String propertiesFile = args[1];
+        String propertiesFile = args[0];
         Configurator configurator = new Configurator(propertiesFile);
         Properties properties;
         try {

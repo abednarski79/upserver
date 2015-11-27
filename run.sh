@@ -1,1 +1,1 @@
-java -classpath ./target/upserver.jar eu.appbucket.upserver.App
+java -jar -Dlog4j.configuration=file:src/main/resources/log4j.properties target/upserver.jar upserver.properties
