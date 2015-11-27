@@ -1,3 +1,10 @@
-sender.address=<USER>@gmail.com
-sender.gmail.password=<PASSWORD>
-receiver.address=<ENTER-SENDER-PASSWORD>
+email.sender.address=<USER>@gmail.com
+email.sender.password=<PASSWORD>
+email.receiver.address=<RECEIVER>
+
+probe.url=<URL-TO-TEST>
+# example regex testing url output:
+# \{"databaseCurrentDate":\d+,"serverCurrentDate":\d+\}
+# for url output:
+# {"databaseCurrentDate":1448632875000,"serverCurrentDate":1448632875169}
+probe.matcher=<REGEX-TESTING-URL-OUTPUT>

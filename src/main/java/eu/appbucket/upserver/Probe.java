@@ -3,24 +3,41 @@ package eu.appbucket.upserver;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-import java.util.regex.Pattern;
+import java.util.Properties;
 
 public class Probe {
 
-    public static void probe() throws Exception {
-        String output = request();
-        validate(output);
+    private String probeUrl;
+    private String probeMatcher;
+
+    public Probe(Properties properties) {
+        loadSetting(properties);
     }
 
-    private static String request() throws Exception {
+    private void loadSetting(Properties properties)  {
+        probeUrl = properties.getProperty("probe.url");
+        if(probeUrl == null) {
+            throw new RuntimeException("No probe url in the properties file.");
+        }
+        probeMatcher = properties.getProperty("probe.matcher");
+        if(probeMatcher == null) {
+            throw new RuntimeException("No probe matcher in the properties file.");
+        }
+    }
+
+    public void probe() throws Exception {
+        String output = readData();
+        validateData(output);
+    }
+
+    private String readData() throws Exception {
         String output = new String();
         CloseableHttpClient httpclient = HttpClients.createDefault();
-        HttpGet httpget = new HttpGet("http://api.prod.queue.appbucket.eu/ping");
+        HttpGet httpget = new HttpGet(probeUrl);
         CloseableHttpResponse response = httpclient.execute(httpget);
         HttpEntity myEntity = response.getEntity();
         try {
@@ -31,12 +48,12 @@ public class Probe {
         return output;
     }
 
-    private static void validate(String validateString) throws Exception {
+    private void validateData(String validateString) throws Exception {
         if(validateString == null) {
             throw new Exception("Response is empty");
         }
-        String regex = "\\{\"databaseCurrentDate\":\\d+,\"serverCurrentDate\":\\d+\\}";
-        if(!validateString.matches(regex)) {
+        // String regex = "\\{\"databaseCurrentDate\":\\d+,\"serverCurrentDate\":\\d+\\}";
+        if(!validateString.matches(probeMatcher)) {
             throw new Exception("Unexpected response.");
         }
     }
