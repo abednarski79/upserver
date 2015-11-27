@@ -1,0 +1,1 @@
+java -classpath ./target/upserver.jar eu.appbucket.upserver.App
