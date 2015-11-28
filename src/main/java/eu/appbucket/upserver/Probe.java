@@ -45,6 +45,8 @@ public class Probe {
         String url = probeUrl + "?upserverTimeStamp=" + System.currentTimeMillis();
         logger.info("Connecting to: " + url);
         HttpGet httpget = new HttpGet(url);
+        httpget.setHeader("Prama", "no-cache");
+        httpget.setHeader("Cache-Control", "no-cache");
         CloseableHttpResponse response = httpclient.execute(httpget);
         code = response.getStatusLine().getStatusCode();
         try {
