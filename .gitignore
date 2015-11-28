@@ -1,5 +1,5 @@
-resources/upserver.properties
-resources/log4j.properties
+src/main/resources/log4j.properties
+src/main/resources/upserver.properties
 target
 target/
 target/*
