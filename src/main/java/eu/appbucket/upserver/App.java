@@ -14,6 +14,7 @@ public class App
 
     public static void main( String[] args )
     {
+        logger.info("Starting...");
         String propertiesFile = args[0];
         Configurator configurator = new Configurator(propertiesFile);
         Properties properties;
@@ -48,14 +49,14 @@ public class App
             doSentMail = true;
         }
 
-        if(!doSentMail) {
-            return;
+        if(doSentMail) {
+            try {
+                mailer.sentMail();
+            } catch (Exception e) {
+                logger.error("Mailer issue.", e);
+            }
         }
 
-        try {
-            mailer.sentMail();
-        } catch (Exception e) {
-            logger.error("Mailer issue.", e);
-        }
+        logger.info("Finished.");
     }
 }

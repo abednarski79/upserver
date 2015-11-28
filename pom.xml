@@ -75,7 +75,10 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <excludes>
+                        <exclude>**/log4j.properties.tempalte</exclude>
                         <exclude>**/log4j.properties</exclude>
+                        <exclude>**/upserver.properties.tempalte</exclude>
+                        <exclude>**/upserver.properties</exclude>
                     </excludes>
                     <archive>
                         <manifest>

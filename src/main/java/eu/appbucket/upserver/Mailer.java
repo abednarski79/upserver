@@ -11,6 +11,7 @@ public class Mailer {
     private String receiverAddress;
     private String senderAddress;
     private String senderPassword;
+    private String probeUrl;
 
     public Mailer(Properties properties) throws Exception {
         loadSetting(properties);
@@ -29,6 +30,7 @@ public class Mailer {
         if(receiverAddress == null) {
             throw new RuntimeException("No receiver address in the properties file.");
         }
+        probeUrl = properties.getProperty("probe.url");
     }
 
     public void sentMail() throws Exception {
@@ -40,7 +42,7 @@ public class Mailer {
         email.setSSLOnConnect(true);
         email.setFrom(senderAddress);
         email.setSubject("Server down !");
-        email.setMsg("Server is down :(");
+        email.setMsg("Server is down :( for proble url: " + probeUrl);
         email.addTo(receiverAddress);
         email.send();
     }

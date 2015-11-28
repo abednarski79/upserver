@@ -1,1 +1,1 @@
-java -jar -Dlog4j.configuration=file:src/main/resources/log4j.properties target/upserver.jar upserver.properties
+java -jar -Dlog4j.configuration=file:src/main/resources/log4j.properties target/upserver.jar src/main/resources/upserver.properties

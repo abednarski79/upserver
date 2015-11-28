@@ -1,18 +1,23 @@
 package eu.appbucket.upserver;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 
 import java.util.Properties;
 
 public class Probe {
 
+    private static final Logger logger = Logger.getLogger(App.class);
     private String probeUrl;
     private String probeMatcher;
+    private String output;
+    private int code;
 
     public Probe(Properties properties) {
         loadSetting(properties);
@@ -30,30 +35,47 @@ public class Probe {
     }
 
     public void probe() throws Exception {
-        String output = readData();
-        validateData(output);
+        readData();
+        validateResponse();
+        validateData();
     }
 
-    private String readData() throws Exception {
-        String output = new String();
+    private void readData() throws Exception {
         CloseableHttpClient httpclient = HttpClients.createDefault();
+        logger.info("Connecting to: " + probeUrl);
         HttpGet httpget = new HttpGet(probeUrl);
         CloseableHttpResponse response = httpclient.execute(httpget);
-        HttpEntity myEntity = response.getEntity();
+        code = response.getStatusLine().getStatusCode();
         try {
+            HttpEntity myEntity = response.getEntity();
             output = EntityUtils.toString(myEntity);
+            logger.info("Output received: " + (output != null ? truncateOutput(output) : "NULL"));
         } finally {
             response.close();
         }
-        return output;
     }
 
-    private void validateData(String validateString) throws Exception {
-        if(validateString == null) {
+    private String truncateOutput(String outputToTruncate) {
+        if(outputToTruncate == null) {
+            return null;
+        }
+        if(outputToTruncate.length() < 100) {
+            return outputToTruncate;
+        } else {
+            return outputToTruncate.substring(0, 97) + "...";
+        }
+    }
+
+    private void validateResponse() throws Exception {
+        if(code != HttpStatus.SC_OK) {
+            throw new Exception("Incorrect response code.");
+        }
+    }
+    private void validateData() throws Exception {
+        if(output == null) {
             throw new Exception("Response is empty");
         }
-        // String regex = "\\{\"databaseCurrentDate\":\\d+,\"serverCurrentDate\":\\d+\\}";
-        if(!validateString.matches(probeMatcher)) {
+        if(!output.matches(probeMatcher)) {
             throw new Exception("Unexpected response.");
         }
     }
