@@ -1,5 +1,10 @@
-# upserver
+# Introduction
 
+This application can be used to establish if certain web page (or web service) is up.
+In case of page is down the email is being sent to the user.
+The page address and the email to be used for notification is configured in properties file.
+
+# Usage
 
 ## Building the app:
 > mvn package

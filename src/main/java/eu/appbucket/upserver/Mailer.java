@@ -42,7 +42,7 @@ public class Mailer {
         email.setSSLOnConnect(true);
         email.setFrom(senderAddress);
         email.setSubject("Server down !");
-        email.setMsg("Server is down :( for proble url: " + probeUrl);
+        email.setMsg("Server is down for proble url: \n" + probeUrl);
         email.addTo(receiverAddress);
         email.send();
     }

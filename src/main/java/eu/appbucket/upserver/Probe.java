@@ -42,8 +42,9 @@ public class Probe {
 
     private void readData() throws Exception {
         CloseableHttpClient httpclient = HttpClients.createDefault();
-        logger.info("Connecting to: " + probeUrl);
-        HttpGet httpget = new HttpGet(probeUrl);
+        String url = probeUrl + "?upserverTimeStamp=" + System.currentTimeMillis();
+        logger.info("Connecting to: " + url);
+        HttpGet httpget = new HttpGet(url);
         CloseableHttpResponse response = httpclient.execute(httpget);
         code = response.getStatusLine().getStatusCode();
         try {
