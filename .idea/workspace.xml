@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f8c68bf5-9904-4f82-b70e-7ef1cdad542a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/eu/appbucket/upserver/Probe.java" afterPath="$PROJECT_DIR$/src/main/java/eu/appbucket/upserver/Probe.java" />
-    </list>
+    <list default="true" id="f8c68bf5-9904-4f82-b70e-7ef1cdad542a" name="Default" comment="" />
     <ignored path="upserver.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/target/" />
